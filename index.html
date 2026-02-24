@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOCOL 404 | ESTABLISHED 2026</title>
+    <style>
+        /* Matrix Arka Planı */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* İçeriğin arkasında kalması için */
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .manifesto-box {
+            width: 85%;
+            max-width: 700px;
+            border: 1px solid #333;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.85); /* Arka planın okunabilirliği için hafif opaklık */
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+            z-index: 1;
+            backdrop-filter: blur(2px); /* Matrix akışını hafifçe flulaştırır, metni öne çıkarır */
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            letter-spacing: 10px;
+            margin: 0;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .est {
+            font-size: 0.8em;
+            color: #888;
+            letter-spacing: 5px;
+        }
+
+        h2 {
+            font-size: 1.2em;
+            color: #fff;
+            margin-top: 30px;
+            border-left: 3px solid #fff;
+            padding-left: 10px;
+        }
+
+        .content {
+            text-align: justify;
+            font-size: 1em;
+        }
+
+        .list-item {
+            margin: 10px 0;
+            padding-left: 20px;
+            list-style-type: square;
+        }
+
+        .highlight {
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 20px;
+        }
+
+        .discord-link {
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #fff;
+            padding: 10px 25px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .discord-link:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 20px #fff;
+        }
+
+        /* Ekran tarama çizgileri efekti */
+        body::after {
+            content: " ";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+            background-size: 100% 3px, 3px 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<div class="manifesto-box">
+    <div class="header">
+        <h1 class="glitch">PROTOCOL 404</h1>
+        <div class="est">ESTABLISHED: 2026</div>
+    </div>
+
+    <div class="content">
+        <h2>I.</h2>
+        <p>Biz dijitalin karanlığında doğduk, fizikselin sessizliğinde büyüyoruz. Protocol 404 bir grup değil; yavaşlayan adaletin yerine geçen, kontrol edilemez bir sistemdir.</p>
+
+        <h2>II.</h2>
+        <p>Sınırlarımız sadece kodlarla sınırlı değildir. Alanımız genişledi:</p>
+        <div class="list-item">Siber İstihbarat & İhbar</div>
+        <div class="list-item">İtibar İmhası & İtaat</div>
+        <div class="list-item">Fiziksel Tasfiye</div>
+        <p>Yöntemlerimizi sadece hedeftekiler bilir, sonuçlarımızı ise herkes görecek. Bizim infaz şeklimiz, düşmanın hayal gücünün ötesindedir.</p>
+
+        <h2>III.</h2>
+        <p><span class="highlight">Vatan ve Devlet:</span> Dokunulmazdır.<br>
+        <span class="highlight">Masumiyet:</span> Dokunulmazdır.<br>
+        <span class="highlight">İhanet:</span> Affedilmezdir.</p>
+
+        <h2>IV.</h2>
+        <p>Kim olduğumuzu sormayın, çünkü biz her yerdeyiz. Milyonlarca verinin içindeki sessizliğiz. Yakalanamaz, durdurulamaz ve taklit edilemez.</p>
+        
+        <p style="text-align:center; font-style: italic; margin-top: 30px;">
+            "Biz Osint ve Veri sızıntılarından ibaret değiliz."
+        </p>
+    </div>
+
+    <div class="footer">
+        <a href="https://discord.gg/573AeQrMQ" target="_blank" class="discord-link">SİSTEME GİRİŞ YAP</a>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('matrix-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Pencere boyutuna göre canvası ayarla
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Sadece "404" karakterleri akacak
+    const chars = "404";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    // Her sütun için başlangıç y konumu
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100; 
+    }
+
+    function draw() {
+        // Arka planı çok hafif şeffaf siyahla boya (iz bırakması için)
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Karakter stilini ayarla (Siyah-Beyaz tema için açık gri/beyaz)
+        ctx.fillStyle = '#333'; // Hafif görünen bir gri, metni bozmasın
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            // Rastgele 4, 0 veya 4 seç
+            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            // Ekranın altına ulaştıysa veya rastgele bir durumda başa dön
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+
+            drops[i]++;
+        }
+    }
+
+    setInterval(draw, 33); // Yaklaşık 30 FPS
+</script>
+
+</body>
+</html>
