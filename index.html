@@ -12,7 +12,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* İçeriğin arkasında kalması için */
+            z-index: -1;
         }
 
         body {
@@ -30,13 +30,31 @@
 
         .manifesto-box {
             width: 85%;
-            max-width: 700px;
+            max-width: 800px;
             border: 1px solid #333;
             padding: 40px;
-            background: rgba(0, 0, 0, 0.85); /* Arka planın okunabilirliği için hafif opaklık */
+            background: rgba(0, 0, 0, 0.85);
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
             z-index: 1;
-            backdrop-filter: blur(2px); /* Matrix akışını hafifçe flulaştırır, metni öne çıkarır */
+            backdrop-filter: blur(2px);
+            margin: 20px 0;
+        }
+
+        /* ASCII Sanatı Alanı */
+        .ascii-art {
+            font-size: 8px; /* Mobilde taşmaması için küçük başlar */
+            line-height: 8px;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+            white-space: pre;
+            display: block;
+            overflow-x: hidden;
+        }
+
+        /* Ekran büyüdükçe ASCII sanatını büyüt */
+        @media (min-width: 600px) {
+            .ascii-art { font-size: 10px; line-height: 10px; }
         }
 
         .header {
@@ -47,7 +65,7 @@
         }
 
         h1 {
-            font-size: 2.2em;
+            font-size: 1.8em;
             letter-spacing: 10px;
             margin: 0;
             font-weight: bold;
@@ -110,7 +128,6 @@
             box-shadow: 0 0 20px #fff;
         }
 
-        /* Ekran tarama çizgileri efekti */
         body::after {
             content: " ";
             position: fixed;
@@ -130,6 +147,15 @@
 <canvas id="matrix-canvas"></canvas>
 
 <div class="manifesto-box">
+    <pre class="ascii-art">
+ ██████╗ ██████╗  ██████╗ ████████╗ ██████╗  ██████╗ ██████╗ ██╗     ██╗  ██╗
+ ██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝██╔═══██╗██╔════╝██╔═══██╗██║     ██║  ██║
+ ██████╔╝██████╔╝██║   ██║   ██║   ██║   ██║██║     ██║   ██║██║     ███████║
+ ██╔═══╝ ██╔══██╗██║   ██║   ██║   ██║   ██║██║     ██║   ██║██║     ╚════██║
+ ██║     ██║  ██║╚██████╔╝   ██║   ╚██████╔╝╚██████╗╚██████╔╝███████╗     ██║
+ ╚═╝     ╚═╝  ╚═╝ ╚═════╝    ╚═╝    ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝     ╚═╝
+    </pre>
+
     <div class="header">
         <h1 class="glitch">PROTOCOL 404</h1>
         <div class="est">ESTABLISHED: 2026</div>
@@ -168,7 +194,6 @@
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
 
-    // Pencere boyutuna göre canvası ayarla
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -177,32 +202,26 @@
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    // Sadece "404" karakterleri akacak
     const chars = "404";
     const fontSize = 16;
     const columns = canvas.width / fontSize;
     const drops = [];
 
-    // Her sütun için başlangıç y konumu
     for (let i = 0; i < columns; i++) {
         drops[i] = Math.random() * -100; 
     }
 
     function draw() {
-        // Arka planı çok hafif şeffaf siyahla boya (iz bırakması için)
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Karakter stilini ayarla (Siyah-Beyaz tema için açık gri/beyaz)
-        ctx.fillStyle = '#333'; // Hafif görünen bir gri, metni bozmasın
+        ctx.fillStyle = '#333'; 
         ctx.font = fontSize + 'px monospace';
 
         for (let i = 0; i < drops.length; i++) {
-            // Rastgele 4, 0 veya 4 seç
             const text = chars.charAt(Math.floor(Math.random() * chars.length));
             ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-            // Ekranın altına ulaştıysa veya rastgele bir durumda başa dön
             if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                 drops[i] = 0;
             }
@@ -211,7 +230,7 @@
         }
     }
 
-    setInterval(draw, 33); // Yaklaşık 30 FPS
+    setInterval(draw, 33);
 </script>
 
 </body>
