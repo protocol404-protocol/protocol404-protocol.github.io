@@ -33,14 +33,24 @@
             max-width: 800px;
             border: 1px solid #333;
             padding: 40px;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
             z-index: 1;
-            backdrop-filter: blur(2px);
-            margin: 20px 0;
+            backdrop-filter: blur(5px);
+            margin: 40px 0;
         }
 
-        /* ASCII Sanatı - PROTOCOL 404 */
+        /* Üst Bilgi Paneli */
+        .system-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7em;
+            color: #555;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
+        }
+
         .ascii-art {
             font-size: 7px;
             line-height: 8px;
@@ -63,7 +73,6 @@
             margin-bottom: 30px;
         }
 
-        /* GLITCH EFEKTİ */
         .glitch {
             font-size: 1.8em;
             letter-spacing: 10px;
@@ -78,27 +87,10 @@
         }
 
         @keyframes glitch {
-            0% {
-                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            14% {
-                text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            15% {
-                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            49% {
-                text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            50% {
-                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            99% {
-                text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75);
-            }
-            100% {
-                text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75);
-            }
+            0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
+            15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
+            50% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
+            100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75); }
         }
 
         .est {
@@ -109,29 +101,72 @@
         }
 
         h2 {
-            font-size: 1.2em;
+            font-size: 1.1em;
             color: #fff;
             margin-top: 30px;
-            border-left: 3px solid #fff;
+            border-left: 2px solid #fff;
             padding-left: 10px;
+            text-transform: uppercase;
         }
 
-        .content {
-            text-align: justify;
-            font-size: 1em;
+        /* Dinamik Terminal Günlüğü */
+        #log-container {
+            font-size: 0.75em;
+            color: #44fb44; /* Terminal Yeşili */
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            height: 60px;
+            overflow: hidden;
+            margin-top: 20px;
+            border: 1px solid #222;
         }
+
+        .forum-section {
+            margin-top: 50px;
+            border: 1px dashed #444;
+            padding: 20px;
+            position: relative;
+            background: rgba(20, 20, 20, 0.5);
+        }
+
+        .forum-header {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #000;
+            padding: 0 10px;
+            font-size: 0.9em;
+            color: #aaa;
+            letter-spacing: 2px;
+        }
+
+        .forum-status {
+            color: #ff3333;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85em;
+        }
+
+        .blink {
+            animation: blinker 1s linear infinite;
+            width: 8px;
+            height: 8px;
+            background-color: #ff3333;
+            border-radius: 50%;
+        }
+
+        @keyframes blinker { 50% { opacity: 0; } }
 
         .list-item {
             margin: 10px 0;
             padding-left: 20px;
             list-style-type: square;
+            font-size: 0.95em;
         }
 
-        .highlight {
-            font-weight: bold;
-            text-transform: uppercase;
-            color: #fff;
-        }
+        .highlight { font-weight: bold; color: #fff; }
 
         .footer {
             margin-top: 40px;
@@ -147,7 +182,6 @@
             padding: 10px 25px;
             transition: all 0.3s ease;
             display: inline-block;
-            margin-top: 10px;
             font-weight: bold;
             letter-spacing: 2px;
         }
@@ -158,15 +192,12 @@
             box-shadow: 0 0 20px #fff;
         }
 
-        /* Scanline Overlay */
         body::after {
-            content: " ";
+            content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
             background-size: 100% 3px, 3px 100%;
             pointer-events: none;
             z-index: 10;
@@ -178,6 +209,12 @@
 <canvas id="matrix-canvas"></canvas>
 
 <div class="manifesto-box">
+    <div class="system-stats">
+        <span>STATUS: ACTIVE</span>
+        <span id="system-clock">00:00:00</span>
+        <span>NODE: TR_404</span>
+    </div>
+
     <pre class="ascii-art">
 ██████╗ ██████╗  ██████╗ ████████╗ ██████╗  ██████╗ ██████╗ ██╗      ██╗  ██╗ ██████╗ ██╗  ██╗
 ██╔══██╗██╔══██╗██╔═══██╗╚══██╔══╝██╔═══██╗██╔════╝██╔═══██╗██║      ██║  ██║██╔═████╗██║  ██║
@@ -193,27 +230,28 @@
     </div>
 
     <div class="content">
-        <h2>I.</h2>
+        <h2>I. MANİFESTO</h2>
         <p>Biz dijitalin karanlığında doğduk, fizikselin sessizliğinde büyüyoruz. Protocol 404 bir grup değil; yavaşlayan adaletin yerine geçen, kontrol edilemez bir sistemdir.</p>
 
-        <h2>II.</h2>
-        <p>Sınırlarımız sadece kodlarla sınırlı değildir. Alanımız genişledi:</p>
+        <h2>II. OPERASYON SAHASI</h2>
         <div class="list-item">Siber İstihbarat & İhbar</div>
         <div class="list-item">İtibar İmhası & İtaat</div>
         <div class="list-item">Fiziksel Tasfiye</div>
-        <p>Yöntemlerimizi sadece hedeftekiler bilir, sonuçlarımızı ise herkes görecek. Bizim infaz şeklimiz, düşmanın hayal gücünün ötesindedir.</p>
 
-        <h2>III.</h2>
+        <h2>III. DEĞERLER</h2>
         <p><span class="highlight">Vatan ve Devlet:</span> Dokunulmazdır.<br>
         <span class="highlight">Masumiyet:</span> Dokunulmazdır.<br>
         <span class="highlight">İhanet:</span> Affedilmezdir.</p>
 
-        <h2>IV.</h2>
-        <p>Kim olduğumuzu sormayın, çünkü biz her yerdeyiz. Milyonlarca verinin içindeki sessizliğiz. Yakalanamaz, durdurulamaz ve taklit edilemez.</p>
-        
-        <p style="text-align:center; font-style: italic; margin-top: 30px;">
-            "Biz Osint ve Veri sızıntılarından ibaret değiliz."
-        </p>
+        <div class="forum-section">
+            <div class="forum-header">[ AC-404-NETWORK ]</div>
+            <div class="forum-status">
+                <span class="blink"></span> 
+                ERİŞİM KISITLANDI: FORUM VERİTABANI ŞİFRELENİYOR...
+            </div>
+            
+            <div id="log-container"></div>
+        </div>
     </div>
 
     <div class="footer">
@@ -222,44 +260,59 @@
 </div>
 
 <script>
+    // Matrix Animasyonu
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
-
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
 
-    const chars = "404";
+    const chars = "404101";
     const fontSize = 16;
     const columns = canvas.width / fontSize;
     const drops = [];
-
-    for (let i = 0; i < columns; i++) {
-        drops[i] = Math.random() * -100; 
-    }
+    for (let i = 0; i < columns; i++) { drops[i] = Math.random() * -100; }
 
     function draw() {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = '#333'; 
+        ctx.fillStyle = '#222'; 
         ctx.font = fontSize + 'px monospace';
-
         for (let i = 0; i < drops.length; i++) {
             const text = chars.charAt(Math.floor(Math.random() * chars.length));
             ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) { drops[i] = 0; }
             drops[i]++;
         }
     }
     setInterval(draw, 33);
+
+    // Canlı Saat
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById('system-clock').innerText = now.toLocaleTimeString();
+    }, 1000);
+
+    // Otomatik Log Kaydı Üretici
+    const logs = [
+        "> Bağlantı kuruluyor: 192.168.1.1...",
+        "> Veri paketleri alınıyor...",
+        "> Bypass: Firewall_Level_4...",
+        "> Şifreleme algoritması: AES-256...",
+        "> Hedef: [BİLİNMİYOR]...",
+        "> Protocol 404 devrede.",
+        "> Sızıntı kontrol ediliyor...",
+        "> Forum modülü yükleniyor: %44...",
+        "> Yeni üye girişi saptandı..."
+    ];
+    const container = document.getElementById('log-container');
+    function addLog() {
+        const line = document.createElement('div');
+        line.innerText = logs[Math.floor(Math.random() * logs.length)];
+        container.appendChild(line);
+        if (container.childNodes.length > 3) container.removeChild(container.firstChild);
+    }
+    setInterval(addLog, 2000);
 </script>
 
 </body>
