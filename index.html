@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PROTOCOL 404 | ESTABLISHED 2026</title>
     <style>
-        /* Matrix Arka Planı */
+        :root {
+            --primary-color: #00ff41; /* Klasik Matrix Yeşili */
+            --glow-color: rgba(0, 255, 65, 0.3);
+            --bg-color: #050505;
+        }
+
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -13,11 +18,12 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+            opacity: 0.6;
         }
 
         body {
-            background-color: #000;
-            color: #fff;
+            background-color: var(--bg-color);
+            color: #e0e0e0;
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
@@ -26,181 +32,162 @@
             margin: 0;
             line-height: 1.6;
             overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* CRT Ekran Efekti */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 100;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
         }
 
         .manifesto-box {
-            width: 85%;
-            max-width: 800px;
-            border: 1px solid #333;
+            width: 90%;
+            max-width: 900px;
+            border: 1px solid #1a1a1a;
             padding: 40px;
-            background: rgba(0, 0, 0, 0.9);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.92);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 1), inset 0 0 10px rgba(0, 255, 65, 0.05);
             z-index: 1;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
             margin: 40px 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Üst Bilgi Paneli */
+        .manifesto-box::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100px); }
+            100% { transform: translateY(1000px); }
+        }
+
         .system-stats {
             display: flex;
             justify-content: space-between;
-            font-size: 0.7em;
-            color: #555;
+            font-size: 0.75em;
+            color: var(--primary-color);
             margin-bottom: 20px;
             border-bottom: 1px solid #222;
-            padding-bottom: 5px;
+            padding-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .ascii-art {
-            font-size: 7px;
-            line-height: 8px;
+            font-size: 8px;
+            line-height: 9px;
             text-align: center;
-            color: #fff;
-            margin-bottom: 20px;
-            white-space: pre;
-            display: block;
-            overflow-x: hidden;
-        }
-
-        @media (min-width: 600px) {
-            .ascii-art { font-size: 10px; line-height: 10px; }
-        }
-
-        .header {
-            text-align: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 20px;
+            color: var(--primary-color);
             margin-bottom: 30px;
+            white-space: pre;
+            text-shadow: 0 0 5px var(--primary-color);
+            filter: drop-shadow(0 0 2px var(--primary-color));
         }
 
         .glitch {
-            font-size: 1.8em;
-            letter-spacing: 10px;
-            margin: 0;
+            font-size: 2.2em;
+            letter-spacing: 15px;
+            text-align: center;
             font-weight: bold;
             text-transform: uppercase;
             position: relative;
-            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75),
-                        -0.025em -0.05em 0 rgba(0, 255, 0, 0.75),
-                        0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
-            animation: glitch 500ms infinite;
+            color: #fff;
+            text-shadow: 2px 0 red, -2px 0 cyan;
+            animation: glitch-anim 2s infinite linear alternate-reverse;
         }
 
-        @keyframes glitch {
-            0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
-            15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
-            50% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
-            100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75); }
-        }
-
-        .est {
-            font-size: 0.8em;
-            color: #888;
-            letter-spacing: 5px;
-            margin-top: 10px;
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
         }
 
         h2 {
-            font-size: 1.1em;
-            color: #fff;
-            margin-top: 30px;
-            border-left: 2px solid #fff;
-            padding-left: 10px;
-            text-transform: uppercase;
+            font-size: 1.2em;
+            color: var(--primary-color);
+            margin-top: 35px;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 15px;
+            background: rgba(0, 255, 65, 0.05);
         }
 
-        /* Dinamik Terminal Günlüğü */
-        #log-container {
-            font-size: 0.75em;
-            color: #44fb44; /* Terminal Yeşili */
-            background: rgba(0,0,0,0.5);
-            padding: 10px;
-            height: 60px;
-            overflow: hidden;
-            margin-top: 20px;
-            border: 1px solid #222;
+        .typewriter-text {
+            border-right: 2px solid var(--primary-color);
+            white-space: pre-wrap;
+            display: inline-block;
         }
-
-        .forum-section {
-            margin-top: 50px;
-            border: 1px dashed #444;
-            padding: 20px;
-            position: relative;
-            background: rgba(20, 20, 20, 0.5);
-        }
-
-        .forum-header {
-            position: absolute;
-            top: -12px;
-            left: 20px;
-            background: #000;
-            padding: 0 10px;
-            font-size: 0.9em;
-            color: #aaa;
-            letter-spacing: 2px;
-        }
-
-        .forum-status {
-            color: #ff3333;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85em;
-        }
-
-        .blink {
-            animation: blinker 1s linear infinite;
-            width: 8px;
-            height: 8px;
-            background-color: #ff3333;
-            border-radius: 50%;
-        }
-
-        @keyframes blinker { 50% { opacity: 0; } }
 
         .list-item {
-            margin: 10px 0;
-            padding-left: 20px;
-            list-style-type: square;
-            font-size: 0.95em;
+            margin: 12px 0;
+            padding-left: 25px;
+            position: relative;
+            transition: all 0.3s;
         }
 
-        .highlight { font-weight: bold; color: #fff; }
+        .list-item::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .list-item:hover {
+            color: var(--primary-color);
+            transform: translateX(10px);
+        }
+
+        .highlight { color: var(--primary-color); font-weight: bold; }
+
+        #log-container {
+            font-size: 0.8em;
+            color: #008f11;
+            background: rgba(0, 10, 0, 0.8);
+            padding: 15px;
+            height: 100px;
+            overflow-y: hidden;
+            margin-top: 25px;
+            border: 1px solid #111;
+            font-family: 'Consolas', monospace;
+        }
 
         .footer {
-            margin-top: 40px;
+            margin-top: 50px;
             text-align: center;
-            border-top: 1px solid #333;
-            padding-top: 20px;
         }
 
         .discord-link {
-            color: #fff;
+            color: var(--primary-color);
             text-decoration: none;
-            border: 1px solid #fff;
-            padding: 10px 25px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-weight: bold;
-            letter-spacing: 2px;
+            border: 1px solid var(--primary-color);
+            padding: 12px 40px;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            overflow: hidden;
         }
 
         .discord-link:hover {
-            background: #fff;
+            background: var(--primary-color);
             color: #000;
-            box-shadow: 0 0 20px #fff;
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.02));
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
-            z-index: 10;
+            box-shadow: 0 0 30px var(--primary-color);
         }
     </style>
 </head>
@@ -210,9 +197,9 @@
 
 <div class="manifesto-box">
     <div class="system-stats">
-        <span>STATUS: ACTIVE</span>
+        <span>[ DECRYPTING... ]</span>
         <span id="system-clock">00:00:00</span>
-        <span>NODE: TR_404</span>
+        <span>LATENCY: 14ms</span>
     </div>
 
     <pre class="ascii-art">
@@ -226,93 +213,117 @@
 
     <div class="header">
         <h1 class="glitch">PROTOCOL 404</h1>
-        <div class="est">ESTABLISHED: 2026</div>
+        <div style="color: #666; text-align: center; letter-spacing: 5px;">VER 2.0 // EST. 2026</div>
     </div>
 
     <div class="content">
-        <h2>I. MANİFESTO</h2>
-        <p>Biz dijitalin karanlığında doğduk, fizikselin sessizliğinde büyüyoruz. Protocol 404 bir grup değil; yavaşlayan adaletin yerine geçen, kontrol edilemez bir sistemdir.</p>
+        <h2>I. SİSTEM MANİFESTOSU</h2>
+        <p id="manifesto-text" class="typewriter-text"></p>
 
-        <h2>II. OPERASYON SAHASI</h2>
-        <div class="list-item">Siber İstihbarat & İhbar</div>
-        <div class="list-item">İtibar İmhası & İtaat</div>
-        <div class="list-item">Fiziksel Tasfiye</div>
+        <h2>II. OPERASYON MODÜLLERİ</h2>
+        <div class="list-item">Siber İstihbarat & Derin Analiz</div>
+        <div class="list-item">İtibar Yönetimi & Dijital İz Silme</div>
+        <div class="list-item">Sistem Güvenlik Protokolleri</div>
 
-        <h2>III. DEĞERLER</h2>
-        <p><span class="highlight">Vatan ve Devlet:</span> Dokunulmazdır.<br>
-        <span class="highlight">Masumiyet:</span> Dokunulmazdır.<br>
-        <span class="highlight">İhanet:</span> Affedilmezdir.</p>
+        <h2>III. TEMEL DİREKTİFLER</h2>
+        <p>
+            [<span class="highlight">01</span>] Devlet otoritesine mutlak sadakat.<br>
+            [<span class="highlight">02</span>] Masumiyetin dijital kalkanı olmak.<br>
+            [<span class="highlight">03</span>] İhanetin telafisi yoktur.
+        </p>
 
-        <div class="forum-section">
-            <div class="forum-header">[ AC-404-NETWORK ]</div>
-            <div class="forum-status">
-                <span class="blink"></span> 
-                ERİŞİM KISITLANDI: FORUM VERİTABANI ŞİFRELENİYOR...
-            </div>
-            
-            <div id="log-container"></div>
-        </div>
+        <div id="log-container"></div>
     </div>
 
     <div class="footer">
-        <a href="https://discord.gg/573AeQrMQ" target="_blank" class="discord-link">SİSTEME GİRİŞ YAP</a>
+        <a href="https://discord.gg/yourlink" target="_blank" class="discord-link">AĞA BAĞLAN</a>
     </div>
 </div>
 
 <script>
-    // Matrix Animasyonu
+    // Gelişmiş Matrix Rain
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
-    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    const chars = "404101";
+    let width, height, columns;
     const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-    for (let i = 0; i < columns; i++) { drops[i] = Math.random() * -100; }
+    let drops = [];
 
-    function draw() {
+    function initMatrix() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+        columns = Math.floor(width / fontSize);
+        drops = [];
+        for (let i = 0; i < columns; i++) drops[i] = 1;
+    }
+
+    window.addEventListener('resize', initMatrix);
+    initMatrix();
+
+    const characters = "01ABCDEFHIJKLMNOPQRSTUVXYZ@#$%&*";
+
+    function drawMatrix() {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#222'; 
-        ctx.font = fontSize + 'px monospace';
+        ctx.fillRect(0, 0, width, height);
+
         for (let i = 0; i < drops.length; i++) {
-            const text = chars.charAt(Math.floor(Math.random() * chars.length));
+            const text = characters.charAt(Math.floor(Math.random() * characters.length));
+            
+            // Baş karakter parlak olsun
+            ctx.fillStyle = '#fff';
             ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) { drops[i] = 0; }
+            
+            ctx.fillStyle = '#00ff41'; // Matrix yeşili
+            ctx.fillText(text, i * fontSize, (drops[i] - 1) * fontSize);
+
+            if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
             drops[i]++;
         }
     }
-    setInterval(draw, 33);
 
-    // Canlı Saat
-    setInterval(() => {
-        const now = new Date();
-        document.getElementById('system-clock').innerText = now.toLocaleTimeString();
-    }, 1000);
+    // Daktilo Efekti
+    const manifestoStr = "Dijitalin karanlığında doğduk, fizikselin sessizliğinde büyüyoruz. Protocol 404 bir grup değil; yavaşlayan adaletin yerine geçen, kontrol edilemez bir algoritmadır.";
+    let charIndex = 0;
+    const manifestoElement = document.getElementById('manifesto-text');
 
-    // Otomatik Log Kaydı Üretici
-    const logs = [
-        "> Bağlantı kuruluyor: 192.168.1.1...",
-        "> Veri paketleri alınıyor...",
-        "> Bypass: Firewall_Level_4...",
-        "> Şifreleme algoritması: AES-256...",
-        "> Hedef: [BİLİNMİYOR]...",
-        "> Protocol 404 devrede.",
-        "> Sızıntı kontrol ediliyor...",
-        "> Forum modülü yükleniyor: %44...",
-        "> Yeni üye girişi saptandı..."
-    ];
-    const container = document.getElementById('log-container');
-    function addLog() {
-        const line = document.createElement('div');
-        line.innerText = logs[Math.floor(Math.random() * logs.length)];
-        container.appendChild(line);
-        if (container.childNodes.length > 3) container.removeChild(container.firstChild);
+    function typeWriter() {
+        if (charIndex < manifestoStr.length) {
+            manifestoElement.innerHTML += manifestoStr.charAt(charIndex);
+            charIndex++;
+            setTimeout(typeWriter, 40);
+        }
     }
-    setInterval(addLog, 2000);
+
+    // Gelişmiş Log Üretici
+    const logEntries = [
+        "AUTH_SUCCESS: Admin node connected.",
+        "ENCRYPTING: Deep-Web-Database...",
+        "SIGNAL: Tracing IP 182.21.XX.X",
+        "WARNING: Firewall breach detected and neutralized.",
+        "PROTOCOL: 404_ACTIVE_SEARCH...",
+        "PACKET: Sent 1024kb to NODE_TR",
+        "SYSTEM: All cores operating at 100%."
+    ];
+    const logContainer = document.getElementById('log-container');
+
+    function addLog() {
+        const entry = document.createElement('div');
+        entry.style.marginBottom = '5px';
+        entry.innerHTML = `<span style="color: #fff">[${new Date().toLocaleTimeString()}]</span> ${logEntries[Math.floor(Math.random() * logEntries.length)]}`;
+        logContainer.appendChild(entry);
+        if (logContainer.childNodes.length > 5) logContainer.removeChild(logContainer.firstChild);
+        logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    // Başlat
+    setInterval(drawMatrix, 40);
+    setInterval(addLog, 1500);
+    setTimeout(typeWriter, 1000);
+
+    setInterval(() => {
+        document.getElementById('system-clock').innerText = new Date().toLocaleTimeString();
+    }, 1000);
 </script>
 
 </body>
